@@ -115,4 +115,11 @@ public class DrawingView extends View {
     }
 
     private void endPath() { path.lineTo(pathX, pathY); }
+
+    public void undoLast() {
+        if (paths.size() > 0) {
+            paths.remove(paths.size() - 1);
+            invalidate();
+        }
+    }
 }
