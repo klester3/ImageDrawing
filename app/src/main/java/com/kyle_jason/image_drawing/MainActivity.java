@@ -10,6 +10,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final DrawingView dv = findViewById(R.id.drawingView);
+        DrawingView dv = findViewById(R.id.drawingView);
     }
 }

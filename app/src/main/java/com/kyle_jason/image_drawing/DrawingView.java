@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -18,6 +17,7 @@ public class DrawingView extends View {
     private int currentHeight;
 
     private ArrayList<PaintPath> paths;
+    private PaintPath paintPath;
     private Path path;
     private float pathX;
     private float pathY;
@@ -42,9 +42,8 @@ public class DrawingView extends View {
     }
 
     public void setup(AttributeSet attrs) {
-        paths = new ArrayList<>();
+        paths = new ArrayList<PaintPath>();
         paint = new Paint();
-        path = new Path();
         strokeWidth = 20;
         color = 0xff0000ff;
     }
@@ -65,19 +64,11 @@ public class DrawingView extends View {
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
 
-        int size = paths.size();
-        PaintPath paintPath;
-        for (int i = 0; i < size; i++) {
-            paintPath = paths.get(i);
+        for (PaintPath paintPath : paths) {
             paint.setColor(paintPath.color);
             paint.setStrokeWidth(paintPath.strokeWidth);
             canvas.drawPath(paintPath.path, paint);
-            Log.i("DRAW_PATH", Integer.toString(i));
         }
-
-        paint.setColor(color);
-        paint.setStrokeWidth(strokeWidth);
-        canvas.drawPath(path, paint);
     }
 
     @Override
@@ -104,7 +95,8 @@ public class DrawingView extends View {
     }
 
     private void startPath(float x, float y) {
-        PaintPath paintPath = new PaintPath(color, strokeWidth, path);
+        path = new Path();
+        paintPath = new PaintPath(color, strokeWidth, path);
         paths.add(paintPath);
         path.reset();
         path.moveTo(x, y);
@@ -122,7 +114,5 @@ public class DrawingView extends View {
         }
     }
 
-    private void endPath() {
-        path.lineTo(pathX, pathY);
-    }
+    private void endPath() { path.lineTo(pathX, pathY); }
 }
