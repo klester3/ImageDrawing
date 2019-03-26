@@ -1,20 +1,30 @@
 package com.kyle_jason.image_drawing;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
 
 public class DrawingView extends View {
+    private final float TOUCH_TOLERANCE = 4f;
+
     private int currentWidth;
     private int currentHeight;
 
     private ArrayList<PaintPath> paths;
+    private Path path;
+    private float pathX;
+    private float pathY;
 
-    private Paint color;
+    private Paint paint;
     private int strokeWidth;
+    private int color;
 
     public DrawingView(Context context) {
         super(context);
@@ -31,9 +41,12 @@ public class DrawingView extends View {
         setup(attrs);
     }
 
-    private void setup(AttributeSet attrs) {
+    public void setup(AttributeSet attrs) {
         paths = new ArrayList<>();
-        color = new Paint();
+        paint = new Paint();
+        path = new Path();
+        strokeWidth = 20;
+        color = 0xff0000ff;
     }
 
     @Override
@@ -41,5 +54,75 @@ public class DrawingView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         currentWidth = w;
         currentHeight = h;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+
+        int size = paths.size();
+        PaintPath paintPath;
+        for (int i = 0; i < size; i++) {
+            paintPath = paths.get(i);
+            paint.setColor(paintPath.color);
+            paint.setStrokeWidth(paintPath.strokeWidth);
+            canvas.drawPath(paintPath.path, paint);
+            Log.i("DRAW_PATH", Integer.toString(i));
+        }
+
+        paint.setColor(color);
+        paint.setStrokeWidth(strokeWidth);
+        canvas.drawPath(path, paint);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startPath(x, y);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                movePath(x, y);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                endPath();
+                invalidate();
+                break;
+        }
+
+        return true;
+    }
+
+    private void startPath(float x, float y) {
+        PaintPath paintPath = new PaintPath(color, strokeWidth, path);
+        paths.add(paintPath);
+        path.reset();
+        path.moveTo(x, y);
+        pathX = x;
+        pathY = y;
+    }
+
+    private void movePath(float x, float y) {
+        float moveX = Math.abs(x - pathX);
+        float moveY = Math.abs(y - pathY);
+        if (moveX >= TOUCH_TOLERANCE || moveY >= TOUCH_TOLERANCE) {
+            path.quadTo(pathX, pathY, (x + pathX)/2, (y + pathY)/2);
+            pathX = x;
+            pathY = y;
+        }
+    }
+
+    private void endPath() {
+        path.lineTo(pathX, pathY);
     }
 }
