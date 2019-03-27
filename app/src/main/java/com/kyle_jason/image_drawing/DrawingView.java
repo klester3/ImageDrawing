@@ -122,4 +122,12 @@ public class DrawingView extends View {
             invalidate();
         }
     }
+
+    public int getCurrentColor() {
+        return color;
+    }
+
+    public void setCurrentColor(int color) {
+        this.color = color;
+    }
 }
