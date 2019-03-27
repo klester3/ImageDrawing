@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         dv = findViewById(R.id.drawingView);
 
         Button undoButton = findViewById(R.id.undoButton);
-        undoButton.setText(Html.fromHtml("&#8634;"));
+        undoButton.setText(Html.fromHtml("&#8630;"));
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         });
 
         Button redoButton = findViewById(R.id.redoButton);
-        redoButton.setText(Html.fromHtml("&#8635;"));
+        redoButton.setText(Html.fromHtml("&#8631;"));
         redoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
