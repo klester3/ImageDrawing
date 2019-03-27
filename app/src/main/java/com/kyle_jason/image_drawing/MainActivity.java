@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
         menu.add(0, 0, 0, "Undo");
         menu.add(0, 1, 0, "Redo");
         menu.add(0, 2, 0, "Color");
+        menu.add(0, 3, 0, "Size");
 
         return true;
     }
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
                         Color.BLACK);
                 colorPicker.show();
                 colorPicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                return true;
+            case 3:
+                // strokeWidthDialog & setStrokeWidth
                 return true;
         }
 
