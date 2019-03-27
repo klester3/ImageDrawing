@@ -17,6 +17,7 @@ public class DrawingView extends View {
     private int currentHeight;
 
     private ArrayList<PaintPath> paths;
+    private ArrayList<PaintPath> redoPaths;
     private PaintPath paintPath;
     private Path path;
     private float pathX;
@@ -43,6 +44,7 @@ public class DrawingView extends View {
 
     public void setup(AttributeSet attrs) {
         paths = new ArrayList<PaintPath>();
+        redoPaths = new ArrayList<PaintPath>();
         paint = new Paint();
         strokeWidth = 20;
         color = 0xff0000ff;
@@ -95,6 +97,7 @@ public class DrawingView extends View {
     }
 
     private void startPath(float x, float y) {
+        redoPaths.clear();
         path = new Path();
         paintPath = new PaintPath(color, strokeWidth, path);
         paths.add(paintPath);
@@ -118,7 +121,16 @@ public class DrawingView extends View {
 
     public void undoLast() {
         if (paths.size() > 0) {
+            redoPaths.add(paths.get(paths.size() - 1));
             paths.remove(paths.size() - 1);
+            invalidate();
+        }
+    }
+
+    public void redoLast() {
+        if (redoPaths.size() > 0) {
+            paths.add(redoPaths.get(redoPaths.size() - 1));
+            redoPaths.remove(redoPaths.size() - 1);
             invalidate();
         }
     }

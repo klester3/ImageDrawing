@@ -4,11 +4,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements ColorPickerDialog.OnColorChangedListener,
-        View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements ColorPickerDialog.OnColorChangedListener {
     private DrawingView dv;
 
     @Override
@@ -17,14 +18,11 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
         setContentView(R.layout.activity_main);
 
         dv = findViewById(R.id.drawingView);
-
-        TextView colorPickerTextView = findViewById(R.id.colorPicker);
-        colorPickerTextView.setOnClickListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        dv.undoLast();
+        return;
     }
 
     @Override
@@ -33,10 +31,33 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     }
 
     @Override
-    public void onClick(View view) {
-        ColorPickerDialog colorPicker = new ColorPickerDialog(this, this,
-                Color.BLACK);
-        colorPicker.show();
-        colorPicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        menu.add(0, 0, 0, "Undo");
+        menu.add(0, 1, 0, "Redo");
+        menu.add(0, 2, 0, "Color");
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                dv.undoLast();
+                return true;
+            case 1:
+                dv.redoLast();
+                return true;
+            case 2:
+                ColorPickerDialog colorPicker = new ColorPickerDialog(this, this,
+                        Color.BLACK);
+                colorPicker.show();
+                colorPicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
