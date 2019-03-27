@@ -46,8 +46,8 @@ public class DrawingView extends View {
         paths = new ArrayList<PaintPath>();
         redoPaths = new ArrayList<PaintPath>();
         paint = new Paint();
-        strokeWidth = 20;
-        color = 0xff0000ff;
+        strokeWidth = 5;
+        color = 0xff000000;
     }
 
     @Override
@@ -141,5 +141,9 @@ public class DrawingView extends View {
 
     public void setCurrentColor(int color) {
         this.color = color;
+    }
+
+    public void setStrokeWidth(int strokeWidth) {
+        this.strokeWidth = strokeWidth;
     }
 }

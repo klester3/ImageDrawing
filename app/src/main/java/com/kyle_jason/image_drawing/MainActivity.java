@@ -6,12 +6,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements ColorPickerDialog.OnColorChangedListener {
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener,
+        ColorPickerDialog.OnColorChangedListener {
     private DrawingView dv;
 
     @Override
@@ -19,10 +23,31 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dv = findViewById(R.id.drawingView);
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(Html.fromHtml("<small>Paintacalifragilisticexpialadocious</small>"));
+
+        dv = findViewById(R.id.drawingView);
+
+        Button undoButton = findViewById(R.id.undoButton);
+        undoButton.setText(Html.fromHtml("&#8634;"));
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dv.undoLast();
+            }
+        });
+
+        Button redoButton = findViewById(R.id.redoButton);
+        redoButton.setText(Html.fromHtml("&#8635;"));
+        redoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dv.redoLast();
+            }
+        });
+
+        SeekBar seekBar = findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(this);
     }
 
     @Override
@@ -39,10 +64,9 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        menu.add(0, 0, 0, "Undo");
-        menu.add(0, 1, 0, "Redo");
+        //menu.add(0, 0, 0, "Undo");
+        //menu.add(0, 1, 0, "Redo");
         menu.add(0, 2, 0, "Color");
-        menu.add(0, 3, 0, "Size");
 
         return true;
     }
@@ -62,11 +86,24 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
                 colorPicker.show();
                 colorPicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 return true;
-            case 3:
-                // strokeWidthDialog & setStrokeWidth
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        Log.i("SEEKBAR", Integer.toString(i));
+        dv.setStrokeWidth(i + 5);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }
