@@ -149,6 +149,7 @@ public class DrawingView extends View {
 
     public void clearAll() {
         paths.clear();
+        redoPaths.clear();
         invalidate();
     }
 }
