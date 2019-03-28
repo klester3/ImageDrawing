@@ -146,4 +146,9 @@ public class DrawingView extends View {
     public void setStrokeWidth(int strokeWidth) {
         this.strokeWidth = strokeWidth;
     }
+
+    public void clearAll() {
+        paths.clear();
+        invalidate();
+    }
 }

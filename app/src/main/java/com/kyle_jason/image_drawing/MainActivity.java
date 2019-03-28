@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         super.onCreateOptionsMenu(menu);
 
         menu.add(0, 0, 0, "Color");
-        menu.add(0, 1, 0, "Save");
+        menu.add(0, 1, 0, "Clear");
+        menu.add(0, 2, 0, "Save");
 
         return true;
     }
@@ -104,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 colorPicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 return true;
             case 1:
+                dv.clearAll();
+                return true;
+            case 2:
                 dv.setDrawingCacheEnabled(true);
                 dv.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                 Bitmap bitmap = dv.getDrawingCache();
@@ -125,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                     Toast.makeText(getApplicationContext(), "Error Saving", Toast.LENGTH_LONG).show();
                     Log.i("SAVE_ERROR", e.getMessage());
                 }
+                dv.setDrawingCacheEnabled(false);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
