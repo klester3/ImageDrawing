@@ -35,8 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener,
-        ColorPickerDialog.OnColorChangedListener {
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     private DrawingView dv;
 
@@ -91,11 +90,6 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     }
 
     @Override
-    public void colorChanged(int color) {
-        dv.setCurrentColor(color);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
@@ -110,12 +104,6 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                /*
-                ColorPickerDialog colorPicker = new ColorPickerDialog(this, this,
-                        Color.BLACK);
-                colorPicker.show();
-                colorPicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                */
                 LayoutInflater inflater = getLayoutInflater();
                 View view = inflater.inflate(R.layout.dialog_color_picker, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
