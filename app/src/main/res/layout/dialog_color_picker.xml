@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
-            app:srcCompat="@drawable/orange" />
+            app:srcCompat="@drawable/redorange" />
 
         <ImageView
             android:id="@+id/ltpurpleColor"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
-            app:srcCompat="@drawable/yellow" />
+            app:srcCompat="@drawable/ltpurple" />
 
         <ImageView
             android:id="@+id/limegreenColor"
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
-            app:srcCompat="@drawable/green" />
+            app:srcCompat="@drawable/limegreen" />
 
         <ImageView
             android:id="@+id/grayColor"
@@ -128,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
-            app:srcCompat="@drawable/blue" />
+            app:srcCompat="@drawable/gray" />
     </LinearLayout>
 
     <LinearLayout
@@ -146,7 +146,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
-            app:srcCompat="@drawable/orange" />
+            app:srcCompat="@drawable/pink" />
 
         <ImageView
             android:id="@+id/brownColor"
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
-            app:srcCompat="@drawable/yellow" />
+            app:srcCompat="@drawable/brown" />
 
         <ImageView
             android:id="@+id/ltbrownColor"
@@ -162,7 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
-            app:srcCompat="@drawable/green" />
+            app:srcCompat="@drawable/ltbrown" />
 
         <ImageView
             android:id="@+id/tealColor"
@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
-            app:srcCompat="@drawable/blue" />
+            app:srcCompat="@drawable/teal" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
