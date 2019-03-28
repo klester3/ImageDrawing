@@ -142,10 +142,6 @@ public class DrawingView extends View {
         }
     }
 
-    public int getCurrentColor() {
-        return color;
-    }
-
     public void setCurrentColor(int color) {
         this.color = color;
     }
