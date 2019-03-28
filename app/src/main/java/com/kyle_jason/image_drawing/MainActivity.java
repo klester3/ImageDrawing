@@ -1,19 +1,34 @@
 package com.kyle_jason.image_drawing;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener,
         ColorPickerDialog.OnColorChangedListener {
+
     private DrawingView dv;
 
     @Override
@@ -23,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(Html.fromHtml("<small>Paintacalifragilisticexpialadocious</small>"));
+
+        verifyStoragePermissions(this);
 
         dv = findViewById(R.id.drawingView);
 
@@ -48,6 +65,15 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         seekBar.setOnSeekBarChangeListener(this);
     }
 
+    public static void verifyStoragePermissions(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE};
+            ActivityCompat.requestPermissions(activity, permissions, 1);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         return;
@@ -62,9 +88,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        //menu.add(0, 0, 0, "Undo");
-        //menu.add(0, 1, 0, "Redo");
-        menu.add(0, 2, 0, "Color");
+        menu.add(0, 0, 0, "Color");
+        menu.add(0, 1, 0, "Save");
 
         return true;
     }
@@ -73,17 +98,33 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                dv.undoLast();
-                return true;
-            case 1:
-                dv.redoLast();
-                return true;
-            case 2:
                 ColorPickerDialog colorPicker = new ColorPickerDialog(this, this,
                         Color.BLACK);
                 colorPicker.show();
                 colorPicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 return true;
+            case 1:
+                dv.setDrawingCacheEnabled(true);
+                dv.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+                Bitmap bitmap = dv.getDrawingCache();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.US);
+                Date date = new Date();
+                String filename = "Painting_" + dateFormat.format(date) + ".jpg";
+                String filepath = Environment.getExternalStorageDirectory().getAbsolutePath();
+                File file = new File(filepath + "/DCIM/" + filename);
+                FileOutputStream fileOutputStream;
+                try {
+                    file.createNewFile();
+                    fileOutputStream = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                    Toast.makeText(getApplicationContext(), "Drawing Saved", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error Saving", Toast.LENGTH_LONG).show();
+                    Log.i("SAVE_ERROR", e.getMessage());
+                }
         }
 
         return super.onOptionsItemSelected(item);
@@ -96,11 +137,11 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
+        // onStartTrackingTouch
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
+        // onStopTrackingTouch
     }
 }
