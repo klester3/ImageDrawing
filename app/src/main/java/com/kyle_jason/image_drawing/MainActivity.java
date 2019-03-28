@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
+                dv.clearAll();
                 Uri imageUri = data.getData();
                 Drawable image;
                 try {
