@@ -1,5 +1,12 @@
 package com.kyle_jason.image_drawing;
 
+/*
+Kyle Lester
+Jason Casebier
+CS 4020
+Assignment 3
+ */
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -43,8 +50,8 @@ public class DrawingView extends View {
     }
 
     public void setup(AttributeSet attrs) {
-        paths = new ArrayList<PaintPath>();
-        redoPaths = new ArrayList<PaintPath>();
+        paths = new ArrayList<>();
+        redoPaths = new ArrayList<>();
         paint = new Paint();
         strokeWidth = 5;
         color = 0xff000000;
