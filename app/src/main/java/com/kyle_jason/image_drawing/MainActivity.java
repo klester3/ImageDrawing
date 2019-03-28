@@ -26,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         setContentView(R.layout.activity_main);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(Html.fromHtml("<small>Paintacalifragilisticexpialadocious" +
+        actionBar.setTitle(Html.fromHtml("<small>Paintacalifragilisticexpialidocious" +
                 "</small>"));
 
         verifyStoragePermissions(this);
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                         setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                dv.setCurrentColor(0xff00cc00);
+                                dv.setCurrentColor(0xff008800);
                                 colorPickerDialog.dismiss();
                             }
                         });
@@ -186,7 +185,71 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                         setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                dv.setCurrentColor(0xfffdfdfd);
+                                dv.setCurrentColor(0xffffffff);
+                                colorPickerDialog.dismiss();
+                            }
+                        });
+                colorPickerDialog.findViewById(R.id.grayColor).
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dv.setCurrentColor(0xffaaaaaa);
+                                colorPickerDialog.dismiss();
+                            }
+                        });
+                colorPickerDialog.findViewById(R.id.limegreenColor).
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dv.setCurrentColor(0xff22ff00);
+                                colorPickerDialog.dismiss();
+                            }
+                        });
+                colorPickerDialog.findViewById(R.id.ltpurpleColor).
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dv.setCurrentColor(0xffcc99ff);
+                                colorPickerDialog.dismiss();
+                            }
+                        });
+                colorPickerDialog.findViewById(R.id.redorangeColor).
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dv.setCurrentColor(0xffff5500);
+                                colorPickerDialog.dismiss();
+                            }
+                        });
+                colorPickerDialog.findViewById(R.id.tealColor).
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dv.setCurrentColor(0xff66ffff);
+                                colorPickerDialog.dismiss();
+                            }
+                        });
+                colorPickerDialog.findViewById(R.id.pinkColor).
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dv.setCurrentColor(0xffff00ff);
+                                colorPickerDialog.dismiss();
+                            }
+                        });
+                colorPickerDialog.findViewById(R.id.ltbrownColor).
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dv.setCurrentColor(0xff996633);
+                                colorPickerDialog.dismiss();
+                            }
+                        });
+                colorPickerDialog.findViewById(R.id.brownColor).
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dv.setCurrentColor(0xff663300);
                                 colorPickerDialog.dismiss();
                             }
                         });
