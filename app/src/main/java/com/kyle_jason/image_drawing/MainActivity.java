@@ -256,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 return true;
             case 2:
                 dv.clearAll();
+                dv.setBackground(new ColorDrawable(0xfffdfdfd));
                 return true;
             case 3:
                 dv.setDrawingCacheEnabled(true);
