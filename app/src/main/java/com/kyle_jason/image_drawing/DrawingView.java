@@ -36,7 +36,8 @@ public class DrawingView extends View {
     private float pathY;
     private Bitmap image;
     private float scale;
-    private float buffer;
+    private float bufferY;
+    private float bufferX;
 
     private Paint paint;
     private int strokeWidth;
@@ -80,7 +81,7 @@ public class DrawingView extends View {
 
         if (image != null) {
             Matrix m = new Matrix();
-            m.setTranslate(0f, buffer);
+            m.setTranslate(bufferX, bufferY);
             canvas.drawBitmap(image, m, paint);
         }
 
@@ -197,9 +198,14 @@ public class DrawingView extends View {
         image = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix,
                 true);
         if (image.getHeight() < currentHeight) {
-            buffer = (currentHeight - image.getHeight()) / 2f;
+            bufferY = (currentHeight - image.getHeight()) / 2f;
         } else {
-            buffer = 0f;
+            bufferY = 0f;
+        }
+        if (image.getWidth() < currentWidth) {
+            bufferX = (currentWidth - image.getWidth()) / 2f;
+        } else {
+            bufferX = 0f;
         }
         Log.i("SCALE", Float.toString(scale));
         invalidate();
