@@ -35,8 +35,8 @@ public class DrawingView extends View {
     private float pathX;
     private float pathY;
     private Bitmap image;
-    private Matrix matrix;
     private float scale;
+    private float buffer;
 
     private Paint paint;
     private int strokeWidth;
@@ -80,7 +80,7 @@ public class DrawingView extends View {
 
         if (image != null) {
             Matrix m = new Matrix();
-            m.setScale(scale, scale);
+            m.setTranslate(0f, buffer);
             canvas.drawBitmap(image, m, paint);
         }
 
@@ -172,22 +172,34 @@ public class DrawingView extends View {
     }
 
     public void loadImage(Drawable drawable) {
-        image = ((BitmapDrawable) drawable).getBitmap();
-        float width = image.getWidth();
-        float height = image.getHeight();
-        Boolean portrait = height > width;
-        if (portrait) {
-            if (height > currentHeight) {
-                scale = currentHeight/height;
-            } else {
-                scale = 1f;
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap img;
+        if (bitmap.getWidth() > bitmap.getHeight()) {
+            Matrix m = new Matrix();
+            m.postRotate(90);
+            img = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m,
+                    true);
+        } else {
+            img = bitmap;
+        }
+        float height = img.getHeight();
+        float width = img.getWidth();
+        if (height > currentHeight) {
+            scale = currentHeight/height;
+            if (width > currentWidth) {
+                scale = currentWidth / width;
             }
         } else {
-            if (width > currentWidth) {
-                scale = currentWidth/width;
-            } else {
-                scale = 1f;
-            }
+            scale = 1f;
+        }
+        Matrix matrix = new Matrix();
+        matrix.setScale(scale, scale);
+        image = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix,
+                true);
+        if (image.getHeight() < currentHeight) {
+            buffer = (currentHeight - image.getHeight()) / 2f;
+        } else {
+            buffer = 0f;
         }
         Log.i("SCALE", Float.toString(scale));
         invalidate();
@@ -195,5 +207,6 @@ public class DrawingView extends View {
 
     public void removeImage() {
         image = null;
+        invalidate();
     }
 }
