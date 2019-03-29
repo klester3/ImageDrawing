@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         verifyStoragePermissions(this);
 
         dv = findViewById(R.id.drawingView);
+        dv.setBackground(new ColorDrawable(0xfffdfdfd));
 
         Button undoButton = findViewById(R.id.undoButton);
         undoButton.setText(Html.fromHtml("&#8630;"));
@@ -256,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 return true;
             case 2:
                 dv.clearAll();
-                dv.setBackground(new ColorDrawable(0xfffdfdfd));
+                dv.removeImage();
                 return true;
             case 3:
                 dv.setDrawingCacheEnabled(true);
@@ -315,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(imageUri);
                     image = Drawable.createFromStream(inputStream, imageUri.toString());
-                    dv.setBackground(image);
+                    dv.loadImage(image);
                 } catch (FileNotFoundException e) {
                     Log.i("OPEN_ERROR", e.getMessage());
                 }

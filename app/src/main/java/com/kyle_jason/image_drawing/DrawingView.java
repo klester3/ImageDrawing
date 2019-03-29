@@ -8,11 +8,15 @@ Assignment 3
  */
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -30,6 +34,9 @@ public class DrawingView extends View {
     private Path path;
     private float pathX;
     private float pathY;
+    private Bitmap image;
+    private Matrix matrix;
+    private float scale;
 
     private Paint paint;
     private int strokeWidth;
@@ -69,8 +76,15 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
+
+        if (image != null) {
+            Matrix m = new Matrix();
+            m.setScale(scale, scale);
+            canvas.drawBitmap(image, m, paint);
+        }
+
+        paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
 
@@ -155,5 +169,31 @@ public class DrawingView extends View {
         paths.clear();
         redoPaths.clear();
         invalidate();
+    }
+
+    public void loadImage(Drawable drawable) {
+        image = ((BitmapDrawable) drawable).getBitmap();
+        float width = image.getWidth();
+        float height = image.getHeight();
+        Boolean portrait = height > width;
+        if (portrait) {
+            if (height > currentHeight) {
+                scale = currentHeight/height;
+            } else {
+                scale = 1f;
+            }
+        } else {
+            if (width > currentWidth) {
+                scale = currentWidth/width;
+            } else {
+                scale = 1f;
+            }
+        }
+        Log.i("SCALE", Float.toString(scale));
+        invalidate();
+    }
+
+    public void removeImage() {
+        image = null;
     }
 }
