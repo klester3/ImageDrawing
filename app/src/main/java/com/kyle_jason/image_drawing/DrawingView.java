@@ -1,9 +1,20 @@
 package com.kyle_jason.image_drawing;
 
+/*
+Kyle Lester
+Jason Casebier
+CS 4020
+Assignment 3
+ */
+
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -18,9 +29,15 @@ public class DrawingView extends View {
     private int currentHeight;
 
     private ArrayList<PaintPath> paths;
+    private ArrayList<PaintPath> redoPaths;
+    private PaintPath paintPath;
     private Path path;
     private float pathX;
     private float pathY;
+    private Bitmap image;
+    private float scale;
+    private float bufferY;
+    private float bufferX;
 
     private Paint paint;
     private int strokeWidth;
@@ -43,10 +60,10 @@ public class DrawingView extends View {
 
     public void setup(AttributeSet attrs) {
         paths = new ArrayList<>();
+        redoPaths = new ArrayList<>();
         paint = new Paint();
-        path = new Path();
-        strokeWidth = 20;
-        color = 0xff0000ff;
+        strokeWidth = 5;
+        color = 0xff000000;
     }
 
     @Override
@@ -60,24 +77,23 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
+
+        if (image != null) {
+            Matrix m = new Matrix();
+            m.setTranslate(bufferX, bufferY);
+            canvas.drawBitmap(image, m, paint);
+        }
+
+        paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
 
-        int size = paths.size();
-        PaintPath paintPath;
-        for (int i = 0; i < size; i++) {
-            paintPath = paths.get(i);
+        for (PaintPath paintPath : paths) {
             paint.setColor(paintPath.color);
             paint.setStrokeWidth(paintPath.strokeWidth);
             canvas.drawPath(paintPath.path, paint);
-            Log.i("DRAW_PATH", Integer.toString(i));
         }
-
-        paint.setColor(color);
-        paint.setStrokeWidth(strokeWidth);
-        canvas.drawPath(path, paint);
     }
 
     @Override
@@ -104,7 +120,9 @@ public class DrawingView extends View {
     }
 
     private void startPath(float x, float y) {
-        PaintPath paintPath = new PaintPath(color, strokeWidth, path);
+        redoPaths.clear();
+        path = new Path();
+        paintPath = new PaintPath(color, strokeWidth, path);
         paths.add(paintPath);
         path.reset();
         path.moveTo(x, y);
@@ -122,7 +140,79 @@ public class DrawingView extends View {
         }
     }
 
-    private void endPath() {
-        path.lineTo(pathX, pathY);
+    private void endPath() { path.lineTo(pathX, pathY); }
+
+    public void undoLast() {
+        if (paths.size() > 0) {
+            redoPaths.add(paths.get(paths.size() - 1));
+            paths.remove(paths.size() - 1);
+            invalidate();
+        }
+    }
+
+    public void redoLast() {
+        if (redoPaths.size() > 0) {
+            paths.add(redoPaths.get(redoPaths.size() - 1));
+            redoPaths.remove(redoPaths.size() - 1);
+            invalidate();
+        }
+    }
+
+    public void setCurrentColor(int color) {
+        this.color = color;
+    }
+
+    public void setStrokeWidth(int strokeWidth) {
+        this.strokeWidth = strokeWidth;
+    }
+
+    public void clearAll() {
+        paths.clear();
+        redoPaths.clear();
+        invalidate();
+    }
+
+    public void loadImage(Drawable drawable) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        Bitmap img;
+        if (bitmap.getWidth() > bitmap.getHeight()) {
+            Matrix m = new Matrix();
+            m.postRotate(90);
+            img = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m,
+                    true);
+        } else {
+            img = bitmap;
+        }
+        float height = img.getHeight();
+        float width = img.getWidth();
+        if (height > currentHeight) {
+            scale = currentHeight/height;
+            if (width > currentWidth) {
+                scale = currentWidth / width;
+            }
+        } else {
+            scale = 1f;
+        }
+        Matrix matrix = new Matrix();
+        matrix.setScale(scale, scale);
+        image = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix,
+                true);
+        if (image.getHeight() < currentHeight) {
+            bufferY = (currentHeight - image.getHeight()) / 2f;
+        } else {
+            bufferY = 0f;
+        }
+        if (image.getWidth() < currentWidth) {
+            bufferX = (currentWidth - image.getWidth()) / 2f;
+        } else {
+            bufferX = 0f;
+        }
+        Log.i("SCALE", Float.toString(scale));
+        invalidate();
+    }
+
+    public void removeImage() {
+        image = null;
+        invalidate();
     }
 }

@@ -1,5 +1,12 @@
 package com.kyle_jason.image_drawing;
 
+/*
+Kyle Lester
+Jason Casebier
+CS 4020
+Assignment 3
+ */
+
 import android.graphics.Path;
 
 public class PaintPath {
