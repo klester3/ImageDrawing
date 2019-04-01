@@ -10,6 +10,7 @@ Assignment 3
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -42,6 +43,8 @@ public class DrawingView extends View {
     private Paint paint;
     private int strokeWidth;
     private int color;
+
+    public boolean isErase = false;
 
     public DrawingView(Context context) {
         super(context);
@@ -103,7 +106,11 @@ public class DrawingView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                startPath(x, y);
+                if(isErase){
+                    startErasePath(x,y);
+                }else {
+                    startPath(x, y);
+                }
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -123,6 +130,17 @@ public class DrawingView extends View {
         redoPaths.clear();
         path = new Path();
         paintPath = new PaintPath(color, strokeWidth, path);
+        paths.add(paintPath);
+        path.reset();
+        path.moveTo(x, y);
+        pathX = x;
+        pathY = y;
+    }
+
+    private void startErasePath(float x, float y) {
+        redoPaths.clear();
+        path = new Path();
+        paintPath = new PaintPath(Color.TRANSPARENT, strokeWidth, path);
         paths.add(paintPath);
         path.reset();
         path.moveTo(x, y);
