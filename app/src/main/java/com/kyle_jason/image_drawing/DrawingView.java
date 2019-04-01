@@ -14,6 +14,8 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -92,6 +94,10 @@ public class DrawingView extends View {
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
 
+        /*if(isErase){
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        }*/
+
         for (PaintPath paintPath : paths) {
             paint.setColor(paintPath.color);
             paint.setStrokeWidth(paintPath.strokeWidth);
@@ -107,7 +113,8 @@ public class DrawingView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if(isErase){
-                    startErasePath(x,y);
+                    //paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                    startPath(x,y);
                 }else {
                     startPath(x, y);
                 }
