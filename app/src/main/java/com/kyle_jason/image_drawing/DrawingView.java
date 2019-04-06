@@ -69,6 +69,9 @@ public class DrawingView extends View {
         paint = new Paint();
         strokeWidth = 5;
         color = 0xff000000;
+        if(isErase){
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        }
     }
 
     @Override
@@ -94,13 +97,13 @@ public class DrawingView extends View {
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeJoin(Paint.Join.ROUND);
 
-        /*if(isErase){
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        }*/
-
         for (PaintPath paintPath : paths) {
             paint.setColor(paintPath.color);
             paint.setStrokeWidth(paintPath.strokeWidth);
+            if(isErase){
+                Log.i("KYLE","isErase = true");
+                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            }
             canvas.drawPath(paintPath.path, paint);
         }
     }
@@ -112,12 +115,7 @@ public class DrawingView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(isErase){
-                    //paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                    startPath(x,y);
-                }else {
-                    startPath(x, y);
-                }
+                startPath(x,y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
