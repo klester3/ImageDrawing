@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         findViewById(R.id.squareButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                pressedSquare();
             }
         });
 
@@ -117,14 +117,17 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         quitAlert.setCancelable(true);
         final AlertDialog quitDialog = quitAlert.create();
         quitDialog.show();
-        String sx = ((EditText)quitDialog.findViewById(R.id.editTextX)).getText().toString();
+        String sx = ((EditText) quitDialog.findViewById(R.id.editTextX)).getText().toString();
+        Log.i("KYLE", "sx = "+sx);
         int x = Integer.parseInt(sx);
+        Log.i("KYLE", "x = "+x);
         dv.squareX = x;
-        String sy = ((EditText)quitDialog.findViewById(R.id.editTextY)).getText().toString();
+        String sy = ((EditText) quitDialog.findViewById(R.id.editTextY)).getText().toString();
         int y = Integer.parseInt(sy);
         dv.squareY = y;
-    }
 
+        dv.mode = 2;
+    }
     @Override
     public void onBackPressed() {
         return;

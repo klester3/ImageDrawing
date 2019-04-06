@@ -49,6 +49,7 @@ public class DrawingView extends View {
     public boolean isErase = false;
     public int squareX;
     public int squareY;
+    public int mode = 1;
 
     public DrawingView(Context context) {
         super(context);
@@ -88,25 +89,32 @@ public class DrawingView extends View {
         super.onDraw(canvas);
 
         paint.setAntiAlias(true);
+        switch(mode) {
+            case 1:
+                if (image != null) {
+                    Matrix m = new Matrix();
+                    m.setTranslate(bufferX, bufferY);
+                    canvas.drawBitmap(image, m, paint);
+                }
 
-        if (image != null) {
-            Matrix m = new Matrix();
-            m.setTranslate(bufferX, bufferY);
-            canvas.drawBitmap(image, m, paint);
-        }
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeCap(Paint.Cap.ROUND);
+                paint.setStrokeJoin(Paint.Join.ROUND);
 
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-
-        for (PaintPath paintPath : paths) {
-            paint.setColor(paintPath.color);
-            paint.setStrokeWidth(paintPath.strokeWidth);
-            if(isErase){
-                Log.i("KYLE","isErase = true");
-                paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            }
-            canvas.drawPath(paintPath.path, paint);
+                for (PaintPath paintPath : paths) {
+                    paint.setColor(paintPath.color);
+                    paint.setStrokeWidth(paintPath.strokeWidth);
+                    if (isErase) {
+                        Log.i("KYLE", "isErase = true");
+                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                    }
+                    canvas.drawPath(paintPath.path, paint);
+                }
+                break;
+            case 2:
+                canvas.drawRect(currentHeight,currentWidth,currentHeight+squareX,currentWidth+squareY,paint);
+                mode=1;
+                break;
         }
     }
 
