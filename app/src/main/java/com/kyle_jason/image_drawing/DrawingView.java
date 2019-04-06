@@ -47,6 +47,8 @@ public class DrawingView extends View {
     private int color;
 
     public boolean isErase = false;
+    public int squareX;
+    public int squareY;
 
     public DrawingView(Context context) {
         super(context);

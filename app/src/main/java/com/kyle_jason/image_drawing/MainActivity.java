@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -76,6 +77,12 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 dv.redoLast();
             }
         });
+        findViewById(R.id.squareButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         findViewById(R.id.eraseButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +107,22 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                     Manifest.permission.READ_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions(activity, permissions, 1);
         }
+    }
+
+    private void pressedSquare() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.square_dialog, null);
+        AlertDialog.Builder quitAlert = new AlertDialog.Builder(this);
+        quitAlert.setView(alertLayout);
+        quitAlert.setCancelable(true);
+        final AlertDialog quitDialog = quitAlert.create();
+        quitDialog.show();
+        String sx = ((EditText)quitDialog.findViewById(R.id.editTextX)).getText().toString();
+        int x = Integer.parseInt(sx);
+        dv.squareX = x;
+        String sy = ((EditText)quitDialog.findViewById(R.id.editTextY)).getText().toString();
+        int y = Integer.parseInt(sy);
+        dv.squareY = y;
     }
 
     @Override
