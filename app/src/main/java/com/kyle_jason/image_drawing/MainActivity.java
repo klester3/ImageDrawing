@@ -12,11 +12,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -61,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         dv = findViewById(R.id.drawingView);
         dv.setBackground(new ColorDrawable(0xfffdfdfd));
 
+        if (Build.VERSION.SDK_INT >= 11) {
+            dv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+
         Button undoButton = findViewById(R.id.undoButton);
         undoButton.setText(Html.fromHtml("&#8630;"));
         undoButton.setOnClickListener(new View.OnClickListener() {
@@ -81,17 +87,24 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         findViewById(R.id.squareButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*dv.mode = 3;
-                if(dv.isGrey){
+                /*if(dv.isGrey){
                     dv.isGrey = false;
                 }else{
                     dv.isGrey = true;
                 }
-                dv.updateScreen();*/
-                if(dv.isDashed){
+                dv.updateScreen();
+                /*if(dv.isDashed){
                     dv.isDashed = false;
                 }else{
                     dv.isDashed = true;
+                }
+                dv.updateScreen();*/
+                if(!dv.isGlow){
+                    dv.isGlow = true;
+                    dv.makeOuterGlow(dv);
+                }else{
+                    dv.isGlow = false;
+                    dv.makeOuterGlow(null);
                 }
                 dv.updateScreen();
             }
@@ -105,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 }else{
                     dv.isErase = true;
                 }
-                dv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
         });
 

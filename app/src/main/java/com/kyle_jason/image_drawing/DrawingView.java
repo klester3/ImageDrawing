@@ -9,6 +9,7 @@ Assignment 3
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
@@ -22,6 +23,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.renderscript.RenderScript;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -53,6 +56,7 @@ public class DrawingView extends View {
     public boolean isErase = false;
     public boolean isGrey = false;
     public boolean isDashed = false;
+    public boolean isGlow = false;
     public int squareX;
     public int squareY;
     public int mode = 1;
@@ -100,6 +104,14 @@ public class DrawingView extends View {
                 if (image != null) {
                     Matrix m = new Matrix();
                     m.setTranslate(bufferX, bufferY);
+
+                    //for greyscale switch
+                    if(isGrey) {
+                        paint.setColorFilter(new ColorMatrixColorFilter((getColorMatrixGrey())));
+                        Log.i("KYLE", "grey");
+                    }else{
+                        paint.setColorFilter(null);
+                    }
                     canvas.drawBitmap(image, m, paint);
                 }
 
@@ -130,30 +142,6 @@ public class DrawingView extends View {
             case 2: //suppose to draw rectangle were clicked
                 canvas.drawRect(currentHeight,currentWidth,currentHeight+squareX,currentWidth+squareY,paint);
                 mode=1;
-                break;
-            case 3: //switches image to greyScale
-                if (image != null) {
-                    Matrix m = new Matrix();
-                    m.setTranslate(bufferX, bufferY);
-                    if(isGrey) {
-                        paint.setColorFilter(new ColorMatrixColorFilter((getColorMatrixGrey())));
-                        Log.i("KYLE", "grey");
-                    }else{
-                        paint.setColorFilter(null);
-                    }
-                    canvas.drawBitmap(image, m, paint);
-                }
-
-                for (PaintPath paintPath : paths) {
-                    paint.setColor(paintPath.color);
-                    paint.setStrokeWidth(paintPath.strokeWidth);
-                    if (isErase) {
-                        Log.i("KYLE", "isErase = true");
-                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                    }
-                    canvas.drawPath(paintPath.path, paint);
-                }
-                mode = 1;
                 break;
         }
     }
@@ -305,4 +293,16 @@ public class DrawingView extends View {
 
         invalidate();
     }
+
+    public void makeOuterGlow(DrawingView dv){
+        if(dv == null) {
+            paint.setMaskFilter(null);
+        }else{
+            float radius = strokeWidth / 5;
+            BlurMaskFilter filter = new BlurMaskFilter(radius, BlurMaskFilter.Blur.OUTER);
+            paint.setMaskFilter(filter);
+        }
+    }
+
+
 }
