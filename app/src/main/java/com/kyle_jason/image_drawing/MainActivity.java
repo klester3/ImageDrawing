@@ -135,51 +135,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         dv.mode = 2;
     }
-
-    private void pressedEffects(){
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.effect_dialog, null);
-        AlertDialog.Builder quitAlert = new AlertDialog.Builder(this);
-        quitAlert.setView(alertLayout);
-        quitAlert.setCancelable(true);
-        final AlertDialog quitDialog = quitAlert.create();
-        quitDialog.findViewById(R.id.greyButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(dv.isGrey){
-                    dv.isGrey = false;
-                }else{
-                    dv.isGrey = true;
-                }
-                dv.updateScreen();
-            }
-        });
-        quitDialog.findViewById(R.id.dashButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(dv.isDashed){
-                    dv.isDashed = false;
-                }else{
-                    dv.isDashed = true;
-                }
-                dv.updateScreen();
-            }
-        });
-        quitDialog.findViewById(R.id.glowButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!dv.isGlow){
-                    dv.isGlow = true;
-                    dv.makeOuterGlow(dv);
-                }else{
-                    dv.isGlow = false;
-                    dv.makeOuterGlow(null);
-                }
-                dv.updateScreen();
-            }
-        });
-        quitDialog.show();
-    }
+    
     @Override
     public void onBackPressed() {
         return;
@@ -193,7 +149,9 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         menu.add(0, 1, 0, "Add Image");
         menu.add(0, 2, 0, "Clear All");
         menu.add(0, 3, 0, "Save Image");
-        menu.add(0, 4, 0, "Add Effects");
+        menu.add(0, 4, 0, "Greyscale Effect");
+        menu.add(0, 5, 0, "Dashed Line Effect");
+        menu.add(0, 6, 0, "Outer Glow Effect");
 
         return true;
     }
@@ -378,7 +336,30 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 dv.setDrawingCacheEnabled(false);
                 return true;
             case 4:
-                pressedEffects();
+                if(dv.isGrey){
+                    dv.isGrey = false;
+                }else{
+                    dv.isGrey = true;
+                }
+                dv.updateScreen();
+                return true;
+            case 5:
+                if(dv.isDashed){
+                    dv.isDashed = false;
+                }else{
+                    dv.isDashed = true;
+                }
+                dv.updateScreen();
+                return true;
+            case 6:
+                if(!dv.isGlow){
+                    dv.isGlow = true;
+                    dv.makeOuterGlow(dv);
+                }else{
+                    dv.isGlow = false;
+                    dv.makeOuterGlow(null);
+                }
+                dv.updateScreen();
                 return true;
         }
 
