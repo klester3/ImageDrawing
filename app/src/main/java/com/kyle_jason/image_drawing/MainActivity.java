@@ -87,26 +87,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         findViewById(R.id.squareButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if(dv.isGrey){
-                    dv.isGrey = false;
-                }else{
-                    dv.isGrey = true;
-                }
-                dv.updateScreen();
-                /*if(dv.isDashed){
-                    dv.isDashed = false;
-                }else{
-                    dv.isDashed = true;
-                }
-                dv.updateScreen();*/
-                if(!dv.isGlow){
-                    dv.isGlow = true;
-                    dv.makeOuterGlow(dv);
-                }else{
-                    dv.isGlow = false;
-                    dv.makeOuterGlow(null);
-                }
-                dv.updateScreen();
+
             }
         });
 
@@ -157,11 +138,46 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     private void pressedEffects(){
         LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.square_dialog, null);
+        View alertLayout = inflater.inflate(R.layout.effect_dialog, null);
         AlertDialog.Builder quitAlert = new AlertDialog.Builder(this);
         quitAlert.setView(alertLayout);
         quitAlert.setCancelable(true);
         final AlertDialog quitDialog = quitAlert.create();
+        quitDialog.findViewById(R.id.greyButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dv.isGrey){
+                    dv.isGrey = false;
+                }else{
+                    dv.isGrey = true;
+                }
+                dv.updateScreen();
+            }
+        });
+        quitDialog.findViewById(R.id.dashButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dv.isDashed){
+                    dv.isDashed = false;
+                }else{
+                    dv.isDashed = true;
+                }
+                dv.updateScreen();
+            }
+        });
+        quitDialog.findViewById(R.id.glowButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!dv.isGlow){
+                    dv.isGlow = true;
+                    dv.makeOuterGlow(dv);
+                }else{
+                    dv.isGlow = false;
+                    dv.makeOuterGlow(null);
+                }
+                dv.updateScreen();
+            }
+        });
         quitDialog.show();
     }
     @Override
