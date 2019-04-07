@@ -51,6 +51,7 @@ public class DrawingView extends View {
 
     private Paint paint;
     private Paint imagePaint;
+    private Paint recPaint;
     private int strokeWidth;
     private int color;
 
@@ -82,6 +83,7 @@ public class DrawingView extends View {
         redoPaths = new ArrayList<>();
         paint = new Paint();
         imagePaint = new Paint();
+        recPaint = new Paint();
         strokeWidth = 5;
         color = 0xff000000;
     }
@@ -99,6 +101,7 @@ public class DrawingView extends View {
 
         paint.setAntiAlias(true);
         imagePaint.setAntiAlias(true);
+        recPaint.setAntiAlias(true);
         switch(mode) {
             case 1: //default to draw
                 if (image != null) {
@@ -136,7 +139,16 @@ public class DrawingView extends View {
                 }
                 break;
             case 2: //suppose to draw rectangle were clicked
-                canvas.drawRect(currentHeight,currentWidth,currentHeight+squareX,currentWidth+squareY,paint);
+                Log.i("KYLE", "mode = 2");
+                recPaint.setColor(color);
+                //canvas.drawRect(currentHeight,currentWidth,currentHeight+squareX,currentWidth+squareY,paint);
+                canvas.drawRect(50,50,50,50,recPaint);
+
+                for (PaintPath paintPath : paths) {
+                    paint.setColor(paintPath.color);
+                    paint.setStrokeWidth(paintPath.strokeWidth);
+                    canvas.drawPath(paintPath.path, paint);
+                }
                 mode=1;
                 break;
         }
