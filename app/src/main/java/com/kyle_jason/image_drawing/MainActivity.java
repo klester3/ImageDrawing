@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         findViewById(R.id.squareButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pressedSquare();
+                dv.mode = 3;
+                dv.updateScreen();
             }
         });
 

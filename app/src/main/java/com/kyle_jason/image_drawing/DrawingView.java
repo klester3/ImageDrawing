@@ -11,6 +11,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -114,6 +116,15 @@ public class DrawingView extends View {
             case 2:
                 canvas.drawRect(currentHeight,currentWidth,currentHeight+squareX,currentWidth+squareY,paint);
                 mode=1;
+                break;
+            case 3:
+                if (image != null) {
+                    Matrix m = new Matrix();
+                    m.setTranslate(bufferX, bufferY);
+                    canvas.drawBitmap(image, m, paint);
+                    changeToGreyscale(canvas);
+                }
+                mode = 1;
                 break;
         }
     }
@@ -246,6 +257,23 @@ public class DrawingView extends View {
 
     public void removeImage() {
         image = null;
+        invalidate();
+    }
+
+    public void changeToGreyscale(Canvas canvas){
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter((getColorMatrix())));
+        canvas.drawBitmap(image,0,0,paint);
+        invalidate();
+    }
+
+    private ColorMatrix getColorMatrix() {
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        return colorMatrix;
+    }
+
+    public void updateScreen(){
         invalidate();
     }
 }
