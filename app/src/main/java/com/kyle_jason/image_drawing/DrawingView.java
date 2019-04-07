@@ -50,6 +50,7 @@ public class DrawingView extends View {
     private float bufferX;
 
     private Paint paint;
+    private Paint imagePaint;
     private int strokeWidth;
     private int color;
 
@@ -80,6 +81,7 @@ public class DrawingView extends View {
         paths = new ArrayList<>();
         redoPaths = new ArrayList<>();
         paint = new Paint();
+        imagePaint = new Paint();
         strokeWidth = 5;
         color = 0xff000000;
         if(isErase){
@@ -99,6 +101,7 @@ public class DrawingView extends View {
         super.onDraw(canvas);
 
         paint.setAntiAlias(true);
+        imagePaint.setAntiAlias(true);
         switch(mode) {
             case 1: //default to draw
                 if (image != null) {
@@ -107,12 +110,12 @@ public class DrawingView extends View {
 
                     //for greyscale switch
                     if(isGrey) {
-                        paint.setColorFilter(new ColorMatrixColorFilter((getColorMatrixGrey())));
+                        imagePaint.setColorFilter(new ColorMatrixColorFilter((getColorMatrixGrey())));
                         Log.i("KYLE", "grey");
                     }else{
-                        paint.setColorFilter(null);
+                        imagePaint.setColorFilter(null);
                     }
-                    canvas.drawBitmap(image, m, paint);
+                    canvas.drawBitmap(image, m, imagePaint);
                 }
 
                 paint.setStyle(Paint.Style.STROKE);
@@ -298,7 +301,7 @@ public class DrawingView extends View {
         if(dv == null) {
             paint.setMaskFilter(null);
         }else{
-            float radius = strokeWidth / 5;
+            float radius = strokeWidth / 2;
             BlurMaskFilter filter = new BlurMaskFilter(radius, BlurMaskFilter.Blur.OUTER);
             paint.setMaskFilter(filter);
         }
