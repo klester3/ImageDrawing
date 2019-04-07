@@ -21,6 +21,7 @@ import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -141,8 +142,9 @@ public class DrawingView extends View {
             case 2: //suppose to draw rectangle were clicked
                 Log.i("KYLE", "mode = 2");
                 recPaint.setColor(color);
-                //canvas.drawRect(currentHeight,currentWidth,currentHeight+squareX,currentWidth+squareY,paint);
-                canvas.drawRect(50,50,50,50,recPaint);
+                int sideLength = 50;
+                Rect rectangle = new Rect(currentWidth, currentHeight, sideLength, sideLength);
+                canvas.drawRect(rectangle,recPaint);
 
                 for (PaintPath paintPath : paths) {
                     paint.setColor(paintPath.color);
