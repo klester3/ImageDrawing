@@ -130,7 +130,16 @@ public class DrawingView extends View {
                     }
                     canvas.drawBitmap(image, m, paint);
                 }
-                
+
+                for (PaintPath paintPath : paths) {
+                    paint.setColor(paintPath.color);
+                    paint.setStrokeWidth(paintPath.strokeWidth);
+                    if (isErase) {
+                        Log.i("KYLE", "isErase = true");
+                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+                    }
+                    canvas.drawPath(paintPath.path, paint);
+                }
                 mode = 1;
                 break;
         }
