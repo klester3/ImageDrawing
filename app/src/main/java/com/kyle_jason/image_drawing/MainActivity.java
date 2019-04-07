@@ -16,6 +16,7 @@ Outer Glow Effect
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -40,6 +41,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -96,7 +98,11 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         squareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dv.squareX = 50;
+                dv.squareY = 50;
 
+                dv.mode = 2;
+                dv.updateScreen();
             }
         });
 
