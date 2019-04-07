@@ -17,13 +17,11 @@ public class PaintPath {
     public int color;
     public int strokeWidth;
     public Path path;
-    public Paint paint;
 
-    public PaintPath(int color, int strokeWidth, Path path, Paint paint) {
+    public PaintPath(int color, int strokeWidth, Path path) {
         this.color = color;
         this.strokeWidth = strokeWidth;
         this.path = path;
-        this.paint = paint;
     }
 
 }

@@ -175,8 +175,7 @@ public class DrawingView extends View {
     private void startPath(float x, float y) {
         redoPaths.clear();
         path = new Path();
-        //Paint tempPaint = paint;
-        paintPath = new PaintPath(color, strokeWidth, path, paint);
+        paintPath = new PaintPath(color, strokeWidth, path);
         paths.add(paintPath);
         path.reset();
         path.moveTo(x, y);

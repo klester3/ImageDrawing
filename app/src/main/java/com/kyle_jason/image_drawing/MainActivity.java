@@ -154,6 +154,16 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         dv.mode = 2;
     }
+
+    private void pressedEffects(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.square_dialog, null);
+        AlertDialog.Builder quitAlert = new AlertDialog.Builder(this);
+        quitAlert.setView(alertLayout);
+        quitAlert.setCancelable(true);
+        final AlertDialog quitDialog = quitAlert.create();
+        quitDialog.show();
+    }
     @Override
     public void onBackPressed() {
         return;
@@ -167,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         menu.add(0, 1, 0, "Add Image");
         menu.add(0, 2, 0, "Clear All");
         menu.add(0, 3, 0, "Save Image");
+        menu.add(0, 4, 0, "Add Effects");
 
         return true;
     }
@@ -349,6 +360,9 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                     Log.i("SAVE_ERROR", e.getMessage());
                 }
                 dv.setDrawingCacheEnabled(false);
+                return true;
+            case 4:
+                pressedEffects();
                 return true;
         }
 
