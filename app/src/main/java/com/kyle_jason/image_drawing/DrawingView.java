@@ -49,6 +49,7 @@ public class DrawingView extends View {
     private int color;
 
     public boolean isErase = false;
+    public boolean isGrey = false;
     public int squareX;
     public int squareY;
     public int mode = 1;
@@ -121,10 +122,15 @@ public class DrawingView extends View {
                 if (image != null) {
                     Matrix m = new Matrix();
                     m.setTranslate(bufferX, bufferY);
+                    if(isGrey) {
+                        paint.setColorFilter(new ColorMatrixColorFilter((getColorMatrixGrey())));
+                    }else{
+                        paint.setColorFilter(new ColorMatrixColorFilter((new ColorMatrix())));
+                    }
                     canvas.drawBitmap(image, m, paint);
-                    changeToGreyscale(canvas);
                 }
                 mode = 1;
+                isGrey = false;
                 break;
         }
     }
@@ -260,14 +266,7 @@ public class DrawingView extends View {
         invalidate();
     }
 
-    public void changeToGreyscale(Canvas canvas){
-        Paint paint = new Paint();
-        paint.setColorFilter(new ColorMatrixColorFilter((getColorMatrix())));
-        canvas.drawBitmap(image,0,0,paint);
-        invalidate();
-    }
-
-    private ColorMatrix getColorMatrix() {
+    private ColorMatrix getColorMatrixGrey() {
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);
         return colorMatrix;

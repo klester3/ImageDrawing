@@ -82,6 +82,11 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             @Override
             public void onClick(View view) {
                 dv.mode = 3;
+                if(dv.isGrey){
+                    dv.isGrey = false;
+                }else{
+                    dv.isGrey = true;
+                }
                 dv.updateScreen();
             }
         });
