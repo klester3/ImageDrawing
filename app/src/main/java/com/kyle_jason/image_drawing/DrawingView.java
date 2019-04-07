@@ -107,8 +107,13 @@ public class DrawingView extends View {
                 paint.setStrokeCap(Paint.Cap.ROUND);
                 paint.setStrokeJoin(Paint.Join.ROUND);
 
+                //makes all strokes dashed
                 if(isDashed){
                     makeDashed();
+                    Log.i("KYLE", "isDashed = true");
+                }else{
+                    paint.setPathEffect(null);
+                    Log.i("KYLE", "isDashed = false");
                 }
 
 
@@ -295,12 +300,9 @@ public class DrawingView extends View {
     }
 
     public void makeDashed(){
-        if(isDashed) {
-            PathEffect dashed = new DashPathEffect(new float[]{strokeWidth * 3, strokeWidth}, 0);
-            paint.setPathEffect(dashed);
-        }else{
-            paint.setPathEffect(null);
-        }
+        PathEffect dashed = new DashPathEffect(new float[]{strokeWidth * 3, strokeWidth}, 0);
+        paint.setPathEffect(dashed);
+
         invalidate();
     }
 }
