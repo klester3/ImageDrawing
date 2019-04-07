@@ -5,6 +5,13 @@ Kyle Lester
 Jason Casebier
 CS 4020
 Assignment 3
+
+Additional Features:
+Undo / Redo
+Gray Scale Effect
+Eraser Effect
+Dashed Line Effect
+Outer Glow Effect
  */
 
 import android.Manifest;

@@ -27,7 +27,7 @@
         android:max="120"
         android:thumb="@drawable/seekbar_thumb"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/redoButton"
+        app:layout_constraintEnd_toStartOf="@+id/eraseButton"
         app:layout_constraintStart_toEndOf="@+id/squareButton" />
 
     <Button
