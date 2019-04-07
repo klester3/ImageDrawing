@@ -106,9 +106,11 @@ public class DrawingView extends View {
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setStrokeCap(Paint.Cap.ROUND);
                 paint.setStrokeJoin(Paint.Join.ROUND);
+
                 if(isDashed){
                     makeDashed();
                 }
+
 
                 for (PaintPath paintPath : paths) {
                     paint.setColor(paintPath.color);
@@ -299,5 +301,6 @@ public class DrawingView extends View {
         }else{
             paint.setPathEffect(null);
         }
+        invalidate();
     }
 }
