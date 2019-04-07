@@ -175,7 +175,8 @@ public class DrawingView extends View {
     private void startPath(float x, float y) {
         redoPaths.clear();
         path = new Path();
-        paintPath = new PaintPath(color, strokeWidth, path);
+        //Paint tempPaint = paint;
+        paintPath = new PaintPath(color, strokeWidth, path, paint);
         paths.add(paintPath);
         path.reset();
         path.moveTo(x, y);
@@ -183,7 +184,7 @@ public class DrawingView extends View {
         pathY = y;
     }
 
-    private void startErasePath(float x, float y) {
+    /*private void startErasePath(float x, float y) {
         redoPaths.clear();
         path = new Path();
         paintPath = new PaintPath(Color.TRANSPARENT, strokeWidth, path);
@@ -192,7 +193,7 @@ public class DrawingView extends View {
         path.moveTo(x, y);
         pathX = x;
         pathY = y;
-    }
+    }*/
 
     private void movePath(float x, float y) {
         float moveX = Math.abs(x - pathX);
