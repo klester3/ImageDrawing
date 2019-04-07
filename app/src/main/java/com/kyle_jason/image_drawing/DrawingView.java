@@ -93,7 +93,7 @@ public class DrawingView extends View {
 
         paint.setAntiAlias(true);
         switch(mode) {
-            case 1:
+            case 1: //default to draw
                 if (image != null) {
                     Matrix m = new Matrix();
                     m.setTranslate(bufferX, bufferY);
@@ -114,7 +114,7 @@ public class DrawingView extends View {
                     canvas.drawPath(paintPath.path, paint);
                 }
                 break;
-            case 2:
+            case 2: //suppose to draw rectangle were clicked
                 canvas.drawRect(currentHeight,currentWidth,currentHeight+squareX,currentWidth+squareY,paint);
                 mode=1;
                 break;
@@ -126,9 +126,11 @@ public class DrawingView extends View {
                         paint.setColorFilter(new ColorMatrixColorFilter((getColorMatrixGrey())));
                         Log.i("KYLE", "grey");
                     }else{
+                        paint.setColorFilter(null);
                     }
                     canvas.drawBitmap(image, m, paint);
                 }
+                
                 mode = 1;
                 break;
         }
