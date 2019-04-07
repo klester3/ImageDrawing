@@ -91,14 +91,18 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 dv.redoLast();
             }
         });
-        findViewById(R.id.squareButton).setOnClickListener(new View.OnClickListener() {
+        Button squareButton = findViewById(R.id.squareButton);
+        squareButton.setText(Html.fromHtml("&#9633;"));
+        squareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
 
-        findViewById(R.id.eraseButton).setOnClickListener(new View.OnClickListener() {
+        Button eraserButton = findViewById(R.id.eraseButton);
+        eraserButton.setText(Html.fromHtml("&#9587;"));
+        eraserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(dv.isErase) {
