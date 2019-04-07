@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 }else{
                     dv.isErase = true;
                 }
+                dv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
         });
 
