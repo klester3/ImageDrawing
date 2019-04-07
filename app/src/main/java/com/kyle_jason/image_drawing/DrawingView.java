@@ -293,7 +293,11 @@ public class DrawingView extends View {
     }
 
     public void makeDashed(){
-        PathEffect dashed = new DashPathEffect(new float[]{strokeWidth * 3, strokeWidth}, 0);
-        paint.setPathEffect(dashed);
+        if(isDashed) {
+            PathEffect dashed = new DashPathEffect(new float[]{strokeWidth * 3, strokeWidth}, 0);
+            paint.setPathEffect(dashed);
+        }else{
+            paint.setPathEffect(null);
+        }
     }
 }

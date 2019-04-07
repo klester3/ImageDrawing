@@ -88,7 +88,12 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                     dv.isGrey = true;
                 }
                 dv.updateScreen();*/
-
+                if(dv.isDashed){
+                    dv.isDashed = false;
+                }else{
+                    dv.isDashed = true;
+                }
+                dv.updateScreen();
             }
         });
 
