@@ -13,9 +13,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
@@ -50,6 +52,7 @@ public class DrawingView extends View {
 
     public boolean isErase = false;
     public boolean isGrey = false;
+    public boolean isDashed = false;
     public int squareX;
     public int squareY;
     public int mode = 1;
@@ -103,6 +106,9 @@ public class DrawingView extends View {
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setStrokeCap(Paint.Cap.ROUND);
                 paint.setStrokeJoin(Paint.Join.ROUND);
+                if(isDashed){
+                    makeDashed();
+                }
 
                 for (PaintPath paintPath : paths) {
                     paint.setColor(paintPath.color);
@@ -284,5 +290,10 @@ public class DrawingView extends View {
 
     public void updateScreen(){
         invalidate();
+    }
+
+    public void makeDashed(){
+        PathEffect dashed = new DashPathEffect(new float[]{strokeWidth * 3, strokeWidth}, 0);
+        paint.setPathEffect(dashed);
     }
 }

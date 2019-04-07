@@ -7,7 +7,9 @@ CS 4020
 Assignment 3
  */
 
+import android.graphics.DashPathEffect;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 
 public class PaintPath {
 
@@ -20,4 +22,5 @@ public class PaintPath {
         this.strokeWidth = strokeWidth;
         this.path = path;
     }
+
 }

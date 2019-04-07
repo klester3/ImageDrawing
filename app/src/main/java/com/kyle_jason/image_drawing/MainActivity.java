@@ -81,13 +81,14 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         findViewById(R.id.squareButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dv.mode = 3;
+                /*dv.mode = 3;
                 if(dv.isGrey){
                     dv.isGrey = false;
                 }else{
                     dv.isGrey = true;
                 }
-                dv.updateScreen();
+                dv.updateScreen();*/
+
             }
         });
 
@@ -368,4 +369,6 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             }
         }
     }
+
+
 }
