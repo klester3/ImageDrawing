@@ -84,9 +84,6 @@ public class DrawingView extends View {
         imagePaint = new Paint();
         strokeWidth = 5;
         color = 0xff000000;
-        if(isErase){
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        }
     }
 
     @Override
@@ -135,10 +132,6 @@ public class DrawingView extends View {
                 for (PaintPath paintPath : paths) {
                     paint.setColor(paintPath.color);
                     paint.setStrokeWidth(paintPath.strokeWidth);
-                    if (isErase) {
-                        Log.i("KYLE", "isErase = true");
-                        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                    }
                     canvas.drawPath(paintPath.path, paint);
                 }
                 break;
@@ -156,7 +149,13 @@ public class DrawingView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                startPath(x,y);
+                if (isErase) {
+                    Log.i("KYLE", "isErase = true");
+                    startErasePath(x,y);
+                }else{
+                    startPath(x,y);
+                    Log.i("KYLE", "isErase = false");
+                }
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -183,16 +182,16 @@ public class DrawingView extends View {
         pathY = y;
     }
 
-    /*private void startErasePath(float x, float y) {
+    private void startErasePath(float x, float y) {
         redoPaths.clear();
         path = new Path();
-        paintPath = new PaintPath(Color.TRANSPARENT, strokeWidth, path);
+        paintPath = new PaintPath(Color.WHITE, strokeWidth, path);
         paths.add(paintPath);
         path.reset();
         path.moveTo(x, y);
         pathX = x;
         pathY = y;
-    }*/
+    }
 
     private void movePath(float x, float y) {
         float moveX = Math.abs(x - pathX);

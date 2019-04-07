@@ -94,11 +94,11 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         findViewById(R.id.eraseButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if(dv.isErase) {
+                if(dv.isErase) {
                     dv.isErase = false;
                 }else{
                     dv.isErase = true;
-                }*/
+                }
             }
         });
 
