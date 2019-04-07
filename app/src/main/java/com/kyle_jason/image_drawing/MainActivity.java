@@ -52,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         setContentView(R.layout.activity_main);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(Html.fromHtml("<small>Paintacalifragilisticexpialidocious" +
-                "</small>"));
+        /*actionBar.setTitle(Html.fromHtml("<small>Paintacalifragilisticexpialidocious" +
+                "</small>"));*/
+        actionBar.setTitle(Html.fromHtml(""));
 
         verifyStoragePermissions(this);
 
@@ -137,10 +138,10 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
-        menu.add(0, 0, 0, "Color");
-        menu.add(0, 1, 0, "Open");
-        menu.add(0, 2, 0, "Clear");
-        menu.add(0, 3, 0, "Save");
+        menu.add(0, 0, 0, "Pick Color");
+        menu.add(0, 1, 0, "Add Image");
+        menu.add(0, 2, 0, "Clear All");
+        menu.add(0, 3, 0, "Save Image");
 
         return true;
     }
