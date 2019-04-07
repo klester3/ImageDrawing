@@ -118,19 +118,18 @@ public class DrawingView extends View {
                 canvas.drawRect(currentHeight,currentWidth,currentHeight+squareX,currentWidth+squareY,paint);
                 mode=1;
                 break;
-            case 3:
+            case 3: //switches image to greyScale
                 if (image != null) {
                     Matrix m = new Matrix();
                     m.setTranslate(bufferX, bufferY);
                     if(isGrey) {
                         paint.setColorFilter(new ColorMatrixColorFilter((getColorMatrixGrey())));
+                        Log.i("KYLE", "grey");
                     }else{
-                        paint.setColorFilter(new ColorMatrixColorFilter((new ColorMatrix())));
                     }
                     canvas.drawBitmap(image, m, paint);
                 }
                 mode = 1;
-                isGrey = false;
                 break;
         }
     }
