@@ -21,6 +21,7 @@ import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -40,6 +41,7 @@ public class DrawingView extends View {
 
     private ArrayList<PaintPath> paths;
     private ArrayList<PaintPath> redoPaths;
+    private ArrayList<PaintRectangle> rectangles;
     private PaintPath paintPath;
     private Path path;
     private float pathX;
@@ -58,6 +60,13 @@ public class DrawingView extends View {
     public boolean isGrey = false;
     public boolean isDashed = false;
     public boolean isGlow = false;
+    private boolean isRectangle;
+    private float rectStartX;
+    private float rectStartY;
+    private float rectEndX;
+    private float rectEndY;
+    private RectF rectangle;
+    private PaintRectangle rect;
     public int squareX;
     public int squareY;
     public int mode = 1;
@@ -80,10 +89,12 @@ public class DrawingView extends View {
     public void setup(AttributeSet attrs) {
         paths = new ArrayList<>();
         redoPaths = new ArrayList<>();
+        rectangles = new ArrayList<>();
         paint = new Paint();
         imagePaint = new Paint();
         strokeWidth = 5;
         color = 0xff000000;
+        isRectangle = false;
     }
 
     @Override
@@ -99,47 +110,49 @@ public class DrawingView extends View {
 
         paint.setAntiAlias(true);
         imagePaint.setAntiAlias(true);
-        switch(mode) {
-            case 1: //default to draw
-                if (image != null) {
-                    Matrix m = new Matrix();
-                    m.setTranslate(bufferX, bufferY);
+        if (image != null) {
+            Matrix m = new Matrix();
+            m.setTranslate(bufferX, bufferY);
 
-                    //for greyscale switch
-                    if(isGrey) {
-                        imagePaint.setColorFilter(new ColorMatrixColorFilter((getColorMatrixGrey())));
-                        Log.i("KYLE", "grey");
-                    }else{
-                        imagePaint.setColorFilter(null);
-                    }
-                    canvas.drawBitmap(image, m, imagePaint);
-                }
-
-                paint.setStyle(Paint.Style.STROKE);
-                paint.setStrokeCap(Paint.Cap.ROUND);
-                paint.setStrokeJoin(Paint.Join.ROUND);
-
-                //makes all strokes dashed
-                if(isDashed){
-                    makeDashed();
-                    Log.i("KYLE", "isDashed = true");
-                }else{
-                    paint.setPathEffect(null);
-                    Log.i("KYLE", "isDashed = false");
-                }
-
-
-                for (PaintPath paintPath : paths) {
-                    paint.setColor(paintPath.color);
-                    paint.setStrokeWidth(paintPath.strokeWidth);
-                    canvas.drawPath(paintPath.path, paint);
-                }
-                break;
-            case 2: //suppose to draw rectangle were clicked
-                canvas.drawRect(currentHeight,currentWidth,currentHeight+squareX,currentWidth+squareY,paint);
-                mode=1;
-                break;
+            //for greyscale switch
+            if(isGrey) {
+                imagePaint.setColorFilter(new ColorMatrixColorFilter((getColorMatrixGrey())));
+                Log.i("KYLE", "grey");
+            }else{
+                imagePaint.setColorFilter(null);
+            }
+            canvas.drawBitmap(image, m, imagePaint);
         }
+
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+
+        //makes all strokes dashed
+        if(isDashed){
+            makeDashed();
+            Log.i("KYLE", "isDashed = true");
+        }else{
+            paint.setPathEffect(null);
+            Log.i("KYLE", "isDashed = false");
+        }
+
+
+        for (PaintPath paintPath : paths) {
+            paint.setColor(paintPath.color);
+            paint.setStrokeWidth(paintPath.strokeWidth);
+            canvas.drawPath(paintPath.path, paint);
+        }
+
+        for (PaintRectangle rectangle : rectangles) {
+            paint.setColor(rectangle.color);
+            paint.setStyle(Paint.Style.FILL);
+            canvas.drawRect(rectangle.rectangle, paint);
+        }
+    }
+
+    public void pressedSquare() {
+        isRectangle = !isRectangle;
     }
 
     @Override
@@ -151,7 +164,10 @@ public class DrawingView extends View {
             case MotionEvent.ACTION_DOWN:
                 if (isErase) {
                     Log.i("KYLE", "isErase = true");
-                    startErasePath(x,y);
+                    startErasePath(x, y);
+                } else if (isRectangle) {
+                    rectStartX = x;
+                    rectStartY = y;
                 }else{
                     startPath(x,y);
                     Log.i("KYLE", "isErase = false");
@@ -159,11 +175,24 @@ public class DrawingView extends View {
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
-                movePath(x, y);
+                if (isRectangle) {
+                    rectEndX = x;
+                    rectEndY = y;
+                } else {
+                    movePath(x, y);
+                }
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                endPath();
+                if (isRectangle) {
+                    rectEndX = x;
+                    rectEndY = y;
+                    rectangle = new RectF(rectStartX, rectStartY, rectEndX, rectEndY);
+                    rect = new PaintRectangle(color, rectangle);
+                    rectangles.add(rect);
+                } else {
+                    endPath();
+                }
                 invalidate();
                 break;
         }
@@ -231,6 +260,7 @@ public class DrawingView extends View {
 
     public void clearAll() {
         paths.clear();
+        rectangles.clear();
         redoPaths.clear();
         invalidate();
     }
