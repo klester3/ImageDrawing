@@ -7,11 +7,11 @@ CS 4020
 Assignment 3
 
 Additional Features:
-Undo / Redo
-Gray Scale Effect
-Eraser Effect
-Dashed Line Effect
-Outer Glow Effect
+Undo / Redo : allows the user to go back a change or go forward a change if they previously went back.
+Gray Scale Effect : changes the current image to a grey scale version.
+Eraser Effect : changes the stroke to white, in order to appear as if it is erasing.
+Dashed Line Effect : changes all strokes to a dashed line effect.
+Outer Glow Effect : changes all strokes to just a outer glow effect.
  */
 
 import android.Manifest;
