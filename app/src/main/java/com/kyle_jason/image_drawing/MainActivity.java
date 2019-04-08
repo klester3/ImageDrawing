@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 }
                 dv.setDrawingCacheEnabled(false);
                 return true;
-            case 4:
+            case 4: //changes image to grey scale
                 if(dv.isGrey){
                     dv.isGrey = false;
                 }else{
@@ -407,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 }
                 dv.updateScreen();
                 return true;
-            case 5:
+            case 5: //changes strokes to dashed
                 if(dv.isDashed){
                     dv.isDashed = false;
                 }else{
@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 }
                 dv.updateScreen();
                 return true;
-            case 6:
+            case 6: // changes strokes to glow
                 if(!dv.isGlow){
                     dv.isGlow = true;
                     dv.makeOuterGlow(dv);

@@ -67,9 +67,6 @@ public class DrawingView extends View {
     private float rectEndY;
     private RectF rectangle;
     private PaintRectangle rect;
-    public int squareX;
-    public int squareY;
-    public int mode = 1;
 
     public DrawingView(Context context) {
         super(context);
