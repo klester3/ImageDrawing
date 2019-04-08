@@ -8,10 +8,79 @@ Assignment 3
 
 Additional Features:
 Undo / Redo : allows the user to go back a change or go forward a change if they previously went back.
+    Variables :
+        Button undoButton,
+        DrawingView dv,
+        ArrayList<PaintPath> paths,
+        ArrayList<PaintPath> redoPaths
+    Methods :
+        undoLast()
+    Class :
+        MainActivity,
+        DrawingView
 Gray Scale Effect : changes the current image to a grey scale version.
+    Variables :
+        DrawingView dv,
+        boolean isGrey,
+        Paint imagePaint,
+        Bitmap image,
+        ColorMatrix colorMatrix,
+        DrawingView dv
+    Methods :
+        updateScreen(),
+        getColorMatrixGrey(),
+        onDraw(),
+        onOptionsItemSelected(MenuItem)
+    Class :
+        MainActivity,
+        DrawingView
 Eraser Effect : changes the stroke to white, in order to appear as if it is erasing.
+    Variables :
+        boolean isErase,
+        ArrayList<PaintPath> redoPaths,
+        Path path,
+        PaintPath paintPath,
+        int strokeWidth,
+        float pathX,
+        float pathY,
+        DrawingView dv
+    Methods :
+        onTouchEvent(),
+        startErasePath(int,int),
+        updateScreen()
+    Class :
+        MainActivity,
+        DrawingView,
+        PaintPath
 Dashed Line Effect : changes all strokes to a dashed line effect.
+    Variables :
+        boolean isDashed,
+        DrawingView dv,
+        Paint paint,
+        PathEffect dashed
+    Methods :
+        updateScreen(),
+        onOptionsItemSelected(MenuItem item),
+        onDraw(),
+        makeDashed()
+    Class :
+        MainActivity,
+        DrawingView
 Outer Glow Effect : changes all strokes to just a outer glow effect.
+    Variables :
+        boolean isGlow,
+        DrawingView dv,
+        BlurMaskFilter filter,
+        int strokeWidth,
+        Paint paint,
+        float radius
+    Methods :
+        updateScreen(),
+        onOptionsItemSelected(MenuItem item),
+        makeOuterGlow(DrawingView)
+    Class :
+        MainActivity,
+        DrawingView
  */
 
 import android.Manifest;
