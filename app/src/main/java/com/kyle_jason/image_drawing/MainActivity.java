@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         squareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                dv.pressedSquare();
             }
         });
 
